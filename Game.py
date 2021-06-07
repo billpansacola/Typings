@@ -1,3 +1,4 @@
+from keyboard import on_press
 from pynput.keyboard import Key, Listener, Controller
 from Words import Words
 
@@ -18,13 +19,23 @@ class Game:
         return True
 
     def start(self):
+
+        def nextWord(key):
+            keyboard = Controller()
+            if key == Key.space:
+                keyboard.press(Key.enter)
+                keyboard.release(Key.enter)
+        
+        lis = Listener(on_press=nextWord)
+        lis.start()
+
         currWord = 0
         mistakes = 0
         correct = 0
         print(self.displayText)
         while currWord < len(self.words):
             userInput = input()
-            if(self.compare(self.words[currWord], userInput)):
+            if(self.compare(self.words[currWord], userInput[:-1])):
                 correct += 1
             else:
                 mistakes += 1
