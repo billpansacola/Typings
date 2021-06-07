@@ -1,7 +1,9 @@
 from Words import Words
-import keyboard
+from Game import Game
 
 words = Words()
-list_of_words = words.generateWords(10)
+game = Game(10)
 
-print(list_of_words)
+game.start()
+ 
+print("Code Complete")
