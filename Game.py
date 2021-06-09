@@ -1,8 +1,11 @@
-from keyboard import on_press
-from pynput.keyboard import Key, Listener, Controller
 from Words import Words
+from tkinter import *
 
 class Game:
+
+    currWord = 0
+    mistakes = 0
+    correct = 0
 
     def __init__(self, int):
         self.words = Words().generateWords(int)
@@ -19,26 +22,33 @@ class Game:
         return True
 
     def start(self):
+        root = Tk()
+        entry = Entry(root)
 
-        def nextWord(key):
-            keyboard = Controller()
-            if key == Key.space:
-                keyboard.press(Key.enter)
-                keyboard.release(Key.enter)
-        
-        lis = Listener(on_press=nextWord)
-        lis.start()
+        displayText = Label(root, text=self.displayText)
+        redo_button = Button(root, text="Redo")
 
-        currWord = 0
-        mistakes = 0
-        correct = 0
-        print(self.displayText)
-        while currWord < len(self.words):
-            userInput = input()
-            if(self.compare(self.words[currWord], userInput[:-1])):
-                correct += 1
+        displayText.grid(row=0, column=0)
+        entry.grid(row=1,column=0)
+        redo_button.grid(row=1, column=1)
+
+        def endGame():
+            root.destroy()
+            print("Number correct: " + str(self.correct) + " || Number Wrong: " + str(self.mistakes))
+
+        def nextWord(event):
+            
+            userInput = entry.get()
+            entry.delete(0, END)
+            if self.compare(self.words[self.currWord], userInput[:-1]):
+                self.correct += 1
             else:
-                mistakes += 1
-            currWord += 1
+                self.mistakes += 1
+            self.currWord += 1
+
+            if self.currWord == len(self.words):
+                endGame()
         
-        print("Number correct: " + str(correct) + " || Number Wrong: " + str(mistakes))
+        root.bind('<space>', nextWord)
+        entry.focus_set()
+        root.mainloop()
