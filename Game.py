@@ -25,13 +25,6 @@ class Game:
         root = Tk()
         entry = Entry(root)
 
-        displayText = Label(root, text=self.displayText)
-        redo_button = Button(root, text="Redo")
-
-        displayText.grid(row=0, column=0)
-        entry.grid(row=1,column=0)
-        redo_button.grid(row=1, column=1)
-
         def endGame():
             root.destroy()
             print("Number correct: " + str(self.correct) + " || Number Wrong: " + str(self.mistakes))
@@ -48,6 +41,22 @@ class Game:
 
             if self.currWord == len(self.words):
                 endGame()
+        
+        def redo():
+            entry.delete(0,END)
+            self.currWord = 0
+            self.mistakes = 0
+            self.correct = 0
+            self.words = Words().generateWords(len(self.words))
+            self.displayText = Words().convertListToString(self.words)
+            displayText.config(text=self.displayText)
+
+        displayText = Label(root, text=self.displayText)
+        redo_button = Button(root, text="Redo", command=redo)
+
+        displayText.grid(row=0, column=0)
+        entry.grid(row=1,column=0)
+        redo_button.grid(row=1, column=1)
         
         root.bind('<space>', nextWord)
         entry.focus_set()
