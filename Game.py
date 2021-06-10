@@ -17,7 +17,7 @@ class Game:
         
         for i in range(0, len(words)):
             if not(words[i] == input[i]):
-                False
+                return False
 
         return True
 
@@ -33,6 +33,10 @@ class Game:
             
             userInput = entry.get()
             entry.delete(0, END)
+
+            if len(userInput) < 2:
+                return 0
+                
             if self.compare(self.words[self.currWord], userInput[:-1]):
                 self.correct += 1
             else:
