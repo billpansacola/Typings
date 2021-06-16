@@ -6,6 +6,7 @@ class Game:
     currWord = 0
     mistakes = 0
     correct = 0
+    currIndex = 0
 
     def __init__(self, int):
         self.words = Words().generateWords(int)
@@ -14,10 +15,10 @@ class Game:
     def compare(self, words, input):
         if not(len(words) == len(input)):
             return False
-        
-        for i in range(0, len(words)):
-            if not(words[i] == input[i]):
-                False
+        else:
+            for i in range(0, len(words)):
+                if not(words[i] == input[i]):
+                    return False
 
         return True
 
@@ -25,6 +26,8 @@ class Game:
         root = Tk()
         entry = Entry(root)
         text = Text(root, height=3)
+        text.tag_config("mistake", foreground="red")
+        text.tag_config("correct", foreground="green")
 
         def endGame():
             root.destroy()
@@ -35,9 +38,13 @@ class Game:
             userInput = entry.get()
             entry.delete(0, END)
             if self.compare(self.words[self.currWord], userInput[:-1]):
+                text.tag_add("correct", "1." + str(self.currIndex), "1." + str(self.currIndex+len(self.words[self.currWord])))
                 self.correct += 1
             else:
+                text.tag_add("mistake", "1." + str(self.currIndex), "1." + str(self.currIndex+len(self.words[self.currWord])))
                 self.mistakes += 1
+
+            self.currIndex += len(self.words[self.currWord]) + 1
             self.currWord += 1
 
             if self.currWord == len(self.words):
@@ -48,6 +55,7 @@ class Game:
             self.currWord = 0
             self.mistakes = 0
             self.correct = 0
+            self.currIndex = 0
             self.words = Words().generateWords(len(self.words))
             self.displayText = Words().convertListToString(self.words)
             text.delete(1.0, "end")
