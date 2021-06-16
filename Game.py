@@ -24,6 +24,7 @@ class Game:
     def start(self):
         root = Tk()
         entry = Entry(root)
+        text = Text(root, height=3)
 
         def endGame():
             root.destroy()
@@ -49,12 +50,13 @@ class Game:
             self.correct = 0
             self.words = Words().generateWords(len(self.words))
             self.displayText = Words().convertListToString(self.words)
-            displayText.config(text=self.displayText)
+            text.delete(1.0, "end")
+            text.insert(INSERT, self.displayText)
 
-        displayText = Label(root, text=self.displayText)
+        text.insert(INSERT, self.displayText)
         redo_button = Button(root, text="Redo", command=redo)
 
-        displayText.grid(row=0, column=0)
+        text.grid(row=0, column=0)
         entry.grid(row=1,column=0)
         redo_button.grid(row=1, column=1)
         
