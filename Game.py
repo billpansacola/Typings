@@ -1,10 +1,10 @@
 from Words import Words
 from tkinter import *
+import math
 
 class Game:
 
     currWord = 0
-    mistakes = 0
     correct = 0
     currIndex = 0
 
@@ -25,13 +25,13 @@ class Game:
     def start(self):
         root = Tk()
         entry = Entry(root)
-        text = Text(root, height=3)
+        text = Text(root, height=5, padx=10, pady=2, wrap=WORD, font="Courier")
         text.tag_config("mistake", foreground="red")
         text.tag_config("correct", foreground="green")
 
         def endGame():
             root.destroy()
-            print("Number correct: " + str(self.correct) + " || Number Wrong: " + str(self.mistakes))
+            print("Accuracy: " + str(math.floor(self.correct/len(self.words) * 100))+ "%")
 
         def nextWord(event):
             
@@ -42,7 +42,6 @@ class Game:
                 self.correct += 1
             else:
                 text.tag_add("mistake", "1." + str(self.currIndex), "1." + str(self.currIndex+len(self.words[self.currWord])))
-                self.mistakes += 1
 
             self.currIndex += len(self.words[self.currWord]) + 1
             self.currWord += 1
@@ -53,7 +52,6 @@ class Game:
         def redo():
             entry.delete(0,END)
             self.currWord = 0
-            self.mistakes = 0
             self.correct = 0
             self.currIndex = 0
             self.words = Words().generateWords(len(self.words))
