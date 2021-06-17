@@ -1,7 +1,7 @@
 from Words import Words
 from Game import Game
 
-game = Game(10)
+game = Game(25)
 
 game.start()
  

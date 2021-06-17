@@ -25,7 +25,7 @@ class Game:
     def start(self):
         root = Tk()
         entry = Entry(root)
-        text = Text(root, width=50, height=5, padx=5, pady=2, wrap=WORD, font="Courier", bg="#F1F1F1")
+        text = Text(root, width=50, height=6, padx=5, pady=2, wrap=WORD, font="Courier", bg="#F1F1F1")
         text.tag_config("mistake", foreground="red")
         text.tag_config("correct", foreground="green")
 
@@ -66,13 +66,29 @@ class Game:
             text.insert(INSERT, self.displayText)
             text.config(state="disabled")
 
+        def newSet(btn):
+            self.words = Words().generateWords(int(btn['text']))
+            redo()
+
         text.insert(INSERT, self.displayText)
         text.config(state="disabled")
-        redo_button = Button(root, text="Redo", command=redo)
 
-        text.grid(row=0, column=0)
-        entry.grid(row=1,column=0)
-        redo_button.grid(row=1, column=1)
+        # creating buttons
+        redo_button = Button(root, text="Redo", command=redo)
+        ten = Button(root, text="10")
+        ten.config(command=lambda:[newSet(ten), redo()])
+        twenty_five = Button(root, text="25")
+        twenty_five.config(command=lambda:[newSet(twenty_five), redo()])
+        fifty = Button(root, text="50")
+        fifty.config(command=lambda:[newSet(fifty), redo()])
+
+        # positioning elements
+        ten.grid(row=0,column=2)
+        twenty_five.grid(row=0,column=3)
+        fifty.grid(row=0,column=4)
+        text.grid(row=1, column=0)
+        entry.grid(row=2,column=0)
+        redo_button.grid(row=2, column=1)
         
         root.bind('<space>', nextWord)
         entry.focus_set()
