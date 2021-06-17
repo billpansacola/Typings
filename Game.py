@@ -68,7 +68,6 @@ class Game:
 
         def newSet(btn):
             self.words = Words().generateWords(int(btn['text']))
-            redo()
 
         text.insert(INSERT, self.displayText)
         text.config(state="disabled")
