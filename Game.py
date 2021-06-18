@@ -25,7 +25,7 @@ class Game:
     def start(self):
         root = Tk()
         entry = Entry(root)
-        text = Text(root, width=50, height=6, padx=5, pady=2, wrap=WORD, font="Courier", bg="#F1F1F1")
+        text = Text(root, width=50, height=4, padx=5, pady=2, wrap=WORD, font="Courier", bg="#F1F1F1")
         text.tag_config("mistake", foreground="red")
         text.tag_config("correct", foreground="green")
 
@@ -68,6 +68,12 @@ class Game:
 
         def newSet(btn):
             self.words = Words().generateWords(int(btn['text']))
+            if btn['text'] == '10':
+                text.config(height=2)
+            elif btn['text'] == '25':
+                text.config(height=4)
+            elif btn['text'] == '50':
+                text.config(height=7)
 
         text.insert(INSERT, self.displayText)
         text.config(state="disabled")
