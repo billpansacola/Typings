@@ -30,8 +30,9 @@ class Game:
         text.tag_config("correct", foreground="green")
 
         def endGame():
-            root.destroy()
-            print("Accuracy: " + str(math.floor(self.correct/len(self.words) * 100))+ "%")
+            accuracy_label.config(text="ACC: " + str(math.floor(self.correct/len(self.words) * 100))+ "%")
+            entry.config(state="disabled")
+            root.unbind('<space>')
 
         def nextWord(event):
             
@@ -66,6 +67,10 @@ class Game:
             text.insert(INSERT, self.displayText)
             text.config(state="disabled")
 
+            # if restarting from endgame state
+            entry.config(state="normal")
+            root.bind('<space>', nextWord)
+
         def newSet(btn):
             self.words = Words().generateWords(int(btn['text']))
             if btn['text'] == '10':
@@ -79,6 +84,7 @@ class Game:
         text.config(state="disabled")
 
         # creating buttons
+        accuracy_label = Label(root, text="ACC: --%", font="Courier")
         redo_button = Button(root, text="Redo", command=redo)
         ten = Button(root, text="10")
         ten.config(command=lambda:[newSet(ten), redo()])
@@ -88,6 +94,7 @@ class Game:
         fifty.config(command=lambda:[newSet(fifty), redo()])
 
         # positioning elements
+        accuracy_label.grid(row=0,column=0)
         ten.grid(row=0,column=2)
         twenty_five.grid(row=0,column=3)
         fifty.grid(row=0,column=4)
