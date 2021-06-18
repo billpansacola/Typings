@@ -29,10 +29,17 @@ class Game:
         text.tag_config("mistake", foreground="red")
         text.tag_config("correct", foreground="green")
 
+        def restartGame():
+            entry.config(state="normal")
+            root.bind('<space>')
+            redo_button.config(text="redo", command=redo)
+
         def endGame():
             accuracy_label.config(text="ACC: " + str(math.floor(self.correct/len(self.words) * 100))+ "%")
             entry.config(state="disabled")
             root.unbind('<space>')
+
+            redo_button.config(text="restart", command=restartGame)
 
         def nextWord(event):
             
