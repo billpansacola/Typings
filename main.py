@@ -1,4 +1,3 @@
-from Words import Words
 from Game import Game
 
 game = Game(25)
